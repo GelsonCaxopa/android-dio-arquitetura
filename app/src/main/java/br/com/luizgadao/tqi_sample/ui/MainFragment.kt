@@ -69,14 +69,16 @@ class MainFragment : Fragment() {
         getData()
     }
 
+    var count = 1
     private fun getData() {
         viewLifecycleOwner.lifecycleScope.launch {
             val jsonResponse: JsonResponse? = withContext(Dispatchers.IO) {
+                delay(4 * 1000)
                 getJsonResponse()
             }
 
             jsonResponse?.let { res ->
-                if (res.payload.locais.isEmpty()) {
+                if (res.payload.locais.isEmpty() || count == 1) {
                     recyclerView?.visibility = View.GONE
                     emptyView?.visibility = View.VISIBLE
                 } else {
@@ -84,6 +86,7 @@ class MainFragment : Fragment() {
                     emptyView?.visibility = View.GONE
                     recyclerView?.visibility = View.VISIBLE
                 }
+                count++
             }
             swipe?.isRefreshing = false
         }
