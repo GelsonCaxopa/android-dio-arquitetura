@@ -10,9 +10,11 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ic_logo"
-        android:layout_width="76dp"
-        android:layout_height="76dp"
+        android:layout_width="66dp"
+        android:layout_height="66dp"
         android:layout_gravity="center"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
         android:contentDescription="@string/app_name"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,21 +23,20 @@
 
     <View
         android:id="@+id/ic_circle"
-        android:layout_width="76dp"
-        android:layout_height="76dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@drawable/ic_circle"/>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ic_like"
-        android:padding="8dp"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:layout_gravity="center"
         android:contentDescription="@string/app_name"
+        android:padding="8dp"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/ic_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_heart" />
@@ -101,6 +102,5 @@
         app:layout_constraintStart_toStartOf="@+id/tv_titulo"
         app:layout_constraintTop_toBottomOf="@+id/tv_nota"
         tools:text="49-59 min . Grátis" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -53,7 +53,7 @@ class MainFragment : Fragment() {
 
     fun getJsonResponse(): JsonResponse? {
         var json: JsonResponse? = null
-        val url = "https://gist.githubusercontent.com/LuizGadao/5793719642bbbbd4fae17629d0cd0266/raw/476a11c32e5f1eb93e7aec7f5034b860398803c6/gistfile1.txt"
+        val url = "https://gist.githubusercontent.com/LuizGadao/5793719642bbbbd4fae17629d0cd0266/raw/c71fc86d04213bd4af6c4d6cd3fef79e07dc9dfe/payload.json"
         val client = OkHttpClient()
         val call = client.newCall(
             Request.Builder()

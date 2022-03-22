@@ -3,10 +3,13 @@ package br.com.luizgadao.tqi_sample.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import br.com.luizgadao.tqi_sample.R
 import br.com.luizgadao.tqi_sample.ui.data.Local
+import coil.load
+import coil.transform.CircleCropTransformation
 
 class ItensAdapter : RecyclerView.Adapter<ItensAdapter.ItemViewHolder>() {
 
@@ -31,12 +34,14 @@ class ItensAdapter : RecyclerView.Adapter<ItensAdapter.ItemViewHolder>() {
         var tvNota: AppCompatTextView? = null
         var tvTipo: AppCompatTextView? = null
         var tvTempo: AppCompatTextView? = null
+        var icLogo: AppCompatImageView? = null
 
         init {
             tvTitle = itemView.findViewById(R.id.tv_titulo)
             tvNota = itemView.findViewById(R.id.tv_nota)
             tvTipo = itemView.findViewById(R.id.tv_tipo)
             tvTempo = itemView.findViewById(R.id.tv_tempo)
+            icLogo = itemView.findViewById(R.id.ic_logo)
         }
 
         fun onBind(local: Local) {
@@ -45,6 +50,15 @@ class ItensAdapter : RecyclerView.Adapter<ItensAdapter.ItemViewHolder>() {
                 tvNota?.text = this.nota.toString()
                 tvTipo?.text = ". ${this.tipo} . ${this.distancia}"
                 tvTempo?.text = "${this.tempo} . ${this.frete}"
+
+                loadLog(this.url)
+            }
+        }
+
+        fun loadLog(url: String) {
+            icLogo?.load(url) {
+                crossfade(true)
+                transformations(CircleCropTransformation())
             }
         }
     }
