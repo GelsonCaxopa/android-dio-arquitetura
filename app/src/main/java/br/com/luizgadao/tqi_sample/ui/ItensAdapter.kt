@@ -1,0 +1,56 @@
+package br.com.luizgadao.tqi_sample.ui
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.recyclerview.widget.RecyclerView
+import br.com.luizgadao.tqi_sample.R
+import br.com.luizgadao.tqi_sample.ui.data.Local
+
+class ItensAdapter : RecyclerView.Adapter<ItensAdapter.ItemViewHolder>() {
+
+    private var itens: List<Local> = ArrayList()
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.list_item_restaurante, parent, false)
+
+        return ItemViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+        holder.onBind(itens[position])
+    }
+
+    override fun getItemCount() = itens.size
+
+    class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        var tvTitle: AppCompatTextView? = null
+        var tvNota: AppCompatTextView? = null
+        var tvTipo: AppCompatTextView? = null
+        var tvTempo: AppCompatTextView? = null
+
+        init {
+            tvTitle = itemView.findViewById(R.id.tv_titulo)
+            tvNota = itemView.findViewById(R.id.tv_nota)
+            tvTipo = itemView.findViewById(R.id.tv_tipo)
+            tvTempo = itemView.findViewById(R.id.tv_tempo)
+        }
+
+        fun onBind(local: Local) {
+            local.run {
+                tvTitle?.text = this.titulo
+                tvNota?.text = this.nota.toString()
+                tvTipo?.text = ". ${this.tipo} . ${this.distancia}"
+                tvTempo?.text = "${this.tempo} . ${this.frete}"
+            }
+        }
+    }
+
+    fun update(itens: List<Local>) {
+        this.itens = itens
+        notifyDataSetChanged()
+    }
+}

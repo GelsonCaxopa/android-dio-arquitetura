@@ -6,8 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
 import br.com.luizgadao.tqi_sample.R
 import br.com.luizgadao.tqi_sample.ui.data.JsonResponse
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +21,8 @@ import okhttp3.Request
 
 class MainFragment : Fragment() {
 
-    private var myTv: TextView? = null
+    private lateinit var itensAdapter: ItensAdapter
+    private var recyclerView: RecyclerView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,7 +34,10 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        myTv = view.findViewById(R.id.my_tv)
+        recyclerView = view.findViewById(R.id.rv)
+
+        itensAdapter = ItensAdapter()
+        recyclerView?.adapter = itensAdapter
 
         viewLifecycleOwner.lifecycleScope.launch {
 
@@ -41,8 +45,8 @@ class MainFragment : Fragment() {
                 getJsonResponse()
             }
 
-            jsonResponse.let {  res ->
-                myTv?.text = res.toString()
+            jsonResponse?.let {  res ->
+                itensAdapter.update(res.payload.locais)
             }
         }
     }
