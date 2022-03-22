@@ -93,7 +93,12 @@ class ItensAdapter(
     }
 
     fun update(itens: List<Local>) {
-        this.itens = itens
+        if (itens.isEmpty()) {
+            this.itens = itens
+        } else {
+            this.itens += itens
+        }
+
         notifyDataSetChanged()
     }
 }
