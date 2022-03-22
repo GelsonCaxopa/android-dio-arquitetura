@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import br.com.luizgadao.tqi_sample.R
 import br.com.luizgadao.tqi_sample.ui.data.JsonResponse
 import kotlinx.coroutines.Dispatchers
@@ -24,6 +25,7 @@ class MainFragment : Fragment() {
 
     private lateinit var itensAdapter: ItensAdapter
     private var recyclerView: RecyclerView? = null
+    private var swipe: SwipeRefreshLayout? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +38,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.rv)
+        swipe = view.findViewById(R.id.swipe)
 
         itensAdapter = ItensAdapter(
             itemClickListener = {
@@ -47,15 +50,25 @@ class MainFragment : Fragment() {
         )
         recyclerView?.adapter = itensAdapter
 
+        swipe?.isRefreshing = true
+        swipe?.setOnRefreshListener {
+            init()
+        }
+
+        init()
+    }
+
+    private fun init() {
         viewLifecycleOwner.lifecycleScope.launch {
 
-            val jsonResponse:JsonResponse? = withContext(Dispatchers.IO) {
+            val jsonResponse: JsonResponse? = withContext(Dispatchers.IO) {
                 getJsonResponse()
             }
 
-            jsonResponse?.let {  res ->
+            jsonResponse?.let { res ->
                 itensAdapter.update(res.payload.locais)
             }
+            swipe?.isRefreshing = false
         }
     }
 
