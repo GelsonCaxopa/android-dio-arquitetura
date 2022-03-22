@@ -14,6 +14,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import br.com.luizgadao.tqi_sample.R
 import br.com.luizgadao.tqi_sample.ui.data.JsonResponse
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.decodeFromString
@@ -27,6 +28,7 @@ class MainFragment : Fragment() {
     private lateinit var itensAdapter: ItensAdapter
     private var recyclerView: RecyclerView? = null
     private var swipe: SwipeRefreshLayout? = null
+    private var emptyView: View? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +42,7 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.rv)
         swipe = view.findViewById(R.id.swipe)
+        emptyView = view.findViewById(R.id.emptyView)
 
         itensAdapter = ItensAdapter(
             itemClickListener = {
@@ -60,21 +63,27 @@ class MainFragment : Fragment() {
 
         swipe?.isRefreshing = true
         swipe?.setOnRefreshListener {
-            init()
+            getData()
         }
 
-        init()
+        getData()
     }
 
-    private fun init() {
+    private fun getData() {
         viewLifecycleOwner.lifecycleScope.launch {
-
             val jsonResponse: JsonResponse? = withContext(Dispatchers.IO) {
                 getJsonResponse()
             }
 
             jsonResponse?.let { res ->
-                itensAdapter.update(res.payload.locais)
+                if (res.payload.locais.isEmpty()) {
+                    recyclerView?.visibility = View.GONE
+                    emptyView?.visibility = View.VISIBLE
+                } else {
+                    itensAdapter.update(res.payload.locais)
+                    emptyView?.visibility = View.GONE
+                    recyclerView?.visibility = View.VISIBLE
+                }
             }
             swipe?.isRefreshing = false
         }
