@@ -11,7 +11,13 @@ import br.com.luizgadao.tqi_sample.ui.data.Local
 import coil.load
 import coil.transform.CircleCropTransformation
 
-class ItensAdapter : RecyclerView.Adapter<ItensAdapter.ItemViewHolder>() {
+typealias ItemClickListener = (Local) -> Unit
+typealias LikeClickListener = (Local) -> Unit
+
+class ItensAdapter(
+    private val itemClickListener: ItemClickListener,
+    private val likeClickListener: LikeClickListener,
+) : RecyclerView.Adapter<ItensAdapter.ItemViewHolder>() {
 
     private var itens: List<Local> = ArrayList()
 
@@ -28,13 +34,14 @@ class ItensAdapter : RecyclerView.Adapter<ItensAdapter.ItemViewHolder>() {
 
     override fun getItemCount() = itens.size
 
-    class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var tvTitle: AppCompatTextView? = null
         var tvNota: AppCompatTextView? = null
         var tvTipo: AppCompatTextView? = null
         var tvTempo: AppCompatTextView? = null
         var icLogo: AppCompatImageView? = null
+        var icLike: AppCompatImageView? = null
 
         init {
             tvTitle = itemView.findViewById(R.id.tv_titulo)
@@ -42,6 +49,7 @@ class ItensAdapter : RecyclerView.Adapter<ItensAdapter.ItemViewHolder>() {
             tvTipo = itemView.findViewById(R.id.tv_tipo)
             tvTempo = itemView.findViewById(R.id.tv_tempo)
             icLogo = itemView.findViewById(R.id.ic_logo)
+            icLike = itemView.findViewById(R.id.ic_like)
         }
 
         fun onBind(local: Local) {
@@ -53,6 +61,9 @@ class ItensAdapter : RecyclerView.Adapter<ItensAdapter.ItemViewHolder>() {
 
                 loadLog(this.url)
             }
+
+            itemView.setOnClickListener { itemClickListener(local) }
+            icLike?.setOnClickListener { likeClickListener(local) }
         }
 
         fun loadLog(url: String) {

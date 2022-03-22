@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import br.com.luizgadao.tqi_sample.R
@@ -36,7 +37,14 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.rv)
 
-        itensAdapter = ItensAdapter()
+        itensAdapter = ItensAdapter(
+            itemClickListener = {
+                Toast.makeText(requireContext(), "click - item: ${it.titulo}", Toast.LENGTH_SHORT).show()
+            },
+            likeClickListener = {
+                Toast.makeText(requireContext(), "click - like: ${it.frete}", Toast.LENGTH_SHORT).show()
+            }
+        )
         recyclerView?.adapter = itensAdapter
 
         viewLifecycleOwner.lifecycleScope.launch {
