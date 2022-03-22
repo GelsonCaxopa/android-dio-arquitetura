@@ -2,13 +2,14 @@ package br.com.luizgadao.tqi_sample.ui
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import br.com.luizgadao.tqi_sample.R
@@ -52,7 +53,25 @@ class MainFragment : Fragment() {
                 Toast.makeText(requireContext(), "click - like: ${it.frete}", Toast.LENGTH_SHORT).show()
             }
         )
+
         recyclerView?.adapter = itensAdapter
+        recyclerView?.setOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                val layoutManager = recyclerView.layoutManager as (LinearLayoutManager)
+
+                layoutManager.let {
+                    val totalItem: Int = it.itemCount
+                    val lastVisibleItem: Int = it.findLastVisibleItemPosition()
+
+                    val isLoading = swipe?.isRefreshing ?: false
+                    if (!isLoading && lastVisibleItem == totalItem - 1) {
+                        swipe?.isRefreshing = true
+                        getData()
+                    }
+                }
+            }
+        })
 
         swipe?.setColorSchemeColors(
             ContextCompat.getColor(requireContext(), R.color.primaryColor),
