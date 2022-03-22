@@ -1,5 +1,6 @@
 package br.com.luizgadao.tqi_sample.ui
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,25 +43,42 @@ class ItensAdapter(
         var tvTempo: AppCompatTextView? = null
         var icLogo: AppCompatImageView? = null
         var icLike: AppCompatImageView? = null
+        var tvValor: AppCompatTextView? = null
 
         init {
             tvTitle = itemView.findViewById(R.id.tv_titulo)
             tvNota = itemView.findViewById(R.id.tv_nota)
             tvTipo = itemView.findViewById(R.id.tv_tipo)
             tvTempo = itemView.findViewById(R.id.tv_tempo)
+            tvValor = itemView.findViewById(R.id.tv_valor)
             icLogo = itemView.findViewById(R.id.ic_logo)
             icLike = itemView.findViewById(R.id.ic_like)
         }
 
         fun onBind(local: Local) {
-            local.run {
-                tvTitle?.text = this.titulo
-                tvNota?.text = this.nota.toString()
-                tvTipo?.text = ". ${this.tipo} . ${this.distancia}"
-                tvTempo?.text = "${this.tempo} . ${this.frete}"
 
-                loadLog(this.url)
-            }
+            tvTitle?.text = local.titulo
+            tvNota?.text = local.nota.toString()
+
+            val distancia = (String.format("%.1f", local.distancia.div(1000.0)) + " Km")
+                .replace(".", ",")
+
+            var frete = if (local.frete <= 0.0)
+                "Grátis"
+            else
+                "R$ " + String.format("%.2f", local.frete).replace(".", ",")
+
+            tvTipo?.text = "| ${local.tipo} | $distancia"
+            tvTempo?.text = "${local.tempo} | "
+            tvValor?.text = frete
+            tvValor?.setTextColor(
+                if (frete.equals("Grátis"))
+                    Color.parseColor("#4CAF50")
+                else
+                    Color.parseColor("#000000")
+            )
+
+            loadLog(local.url)
 
             itemView.setOnClickListener { itemClickListener(local) }
             icLike?.setOnClickListener { likeClickListener(local) }
@@ -75,11 +93,7 @@ class ItensAdapter(
     }
 
     fun update(itens: List<Local>) {
-        if (this.itens.isEmpty()) {
-            this.itens = itens
-        } else {
-            this.itens += itens
-        }
+        this.itens = itens
         notifyDataSetChanged()
     }
 }

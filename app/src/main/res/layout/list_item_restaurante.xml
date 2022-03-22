@@ -58,8 +58,8 @@
 
     <View
         android:id="@+id/ic_strela"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_marginTop="4dp"
         android:background="@drawable/ic_star"
         app:layout_constraintStart_toStartOf="@+id/tv_titulo"
@@ -73,7 +73,7 @@
         android:layout_marginTop="4dp"
         android:ellipsize="end"
         android:lines="1"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/ic_strela"
         app:layout_constraintTop_toBottomOf="@+id/tv_titulo"
         tools:text="4,5" />
@@ -86,10 +86,10 @@
         android:layout_marginTop="4dp"
         android:ellipsize="end"
         android:lines="1"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/tv_nota"
         app:layout_constraintTop_toBottomOf="@+id/tv_titulo"
-        tools:text=". Brasileira . 3,9 km" />
+        tools:text="| Brasileira | 3,9 km" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_tempo"
@@ -98,9 +98,23 @@
         android:layout_marginTop="4dp"
         android:ellipsize="end"
         android:lines="1"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/tv_titulo"
         app:layout_constraintTop_toBottomOf="@+id/tv_nota"
-        tools:text="49-59 min . Grátis" />
+        tools:text="49-59 min" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_valor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/tv_tempo"
+        app:layout_constraintTop_toBottomOf="@+id/tv_nota"
+        tools:text="Grátis"
+        tools:textColor="#4CAF50"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

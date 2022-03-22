@@ -53,25 +53,7 @@ class MainFragment : Fragment() {
                 Toast.makeText(requireContext(), "click - like: ${it.frete}", Toast.LENGTH_SHORT).show()
             }
         )
-
         recyclerView?.adapter = itensAdapter
-        recyclerView?.setOnScrollListener(object : RecyclerView.OnScrollListener(){
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                val layoutManager = recyclerView.layoutManager as (LinearLayoutManager)
-
-                layoutManager.let {
-                    val totalItem: Int = it.itemCount
-                    val lastVisibleItem: Int = it.findLastVisibleItemPosition()
-
-                    val isLoading = swipe?.isRefreshing ?: false
-                    if (!isLoading && lastVisibleItem == totalItem - 1) {
-                        swipe?.isRefreshing = true
-                        getData()
-                    }
-                }
-            }
-        })
 
         swipe?.setColorSchemeColors(
             ContextCompat.getColor(requireContext(), R.color.primaryColor),
@@ -88,16 +70,14 @@ class MainFragment : Fragment() {
         getData()
     }
 
-    var count = 1
     private fun getData() {
         viewLifecycleOwner.lifecycleScope.launch {
             val jsonResponse: JsonResponse? = withContext(Dispatchers.IO) {
-                delay(4 * 1000)
                 getJsonResponse()
             }
 
             jsonResponse?.let { res ->
-                if (res.payload.locais.isEmpty() || count == 1) {
+                if (res.payload.locais.isEmpty()) {
                     recyclerView?.visibility = View.GONE
                     emptyView?.visibility = View.VISIBLE
                 } else {
@@ -105,7 +85,6 @@ class MainFragment : Fragment() {
                     emptyView?.visibility = View.GONE
                     recyclerView?.visibility = View.VISIBLE
                 }
-                count++
             }
             swipe?.isRefreshing = false
         }
@@ -113,7 +92,7 @@ class MainFragment : Fragment() {
 
     fun getJsonResponse(): JsonResponse? {
         var json: JsonResponse? = null
-        val url = "https://gist.githubusercontent.com/LuizGadao/5793719642bbbbd4fae17629d0cd0266/raw/c71fc86d04213bd4af6c4d6cd3fef79e07dc9dfe/payload.json"
+        val url = "https://gist.githubusercontent.com/LuizGadao/5793719642bbbbd4fae17629d0cd0266/raw/741b6bf8256aba7bc40a459703cb80a36e21b92d/payload.json"
         val client = OkHttpClient()
         val call = client.newCall(
             Request.Builder()
