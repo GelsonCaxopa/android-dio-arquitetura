@@ -22,7 +22,8 @@ class MainFragment : Fragment(), ListContract.View {
 
     private val presenter: ListContract.Presenter by lazy {
         Presenter(
-            view = this@MainFragment, scope = viewLifecycleOwner.lifecycleScope
+            view = this@MainFragment,
+            scope = viewLifecycleOwner.lifecycleScope
         )
     }
 
