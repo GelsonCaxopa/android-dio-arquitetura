@@ -7,35 +7,20 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import br.com.luizgadao.tqi_sample.R
-import br.com.luizgadao.tqi_sample.data.RestauranteRepository
-import br.com.luizgadao.tqi_sample.data.RestauranteRepositoryEmMemoria
-import br.com.luizgadao.tqi_sample.ui.data.JsonResponse
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(R.layout.fragment_main) {
 
     private lateinit var itensAdapter: ItensAdapter
     private var recyclerView: RecyclerView? = null
     private var swipe: SwipeRefreshLayout? = null
     private var emptyView: View? = null
 
-    private val repository: RestauranteRepository by lazy {
-        RestauranteRepositoryEmMemoria(scope = viewLifecycleOwner.lifecycleScope)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_main, container, false)
-    }
+    val viewModel: MainViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,7 +45,6 @@ class MainFragment : Fragment() {
             ContextCompat.getColor(requireContext(), R.color.secondaryDarkColor)
         )
 
-        swipe?.isRefreshing = true
         swipe?.setOnRefreshListener {
             getData()
         }
@@ -69,22 +53,23 @@ class MainFragment : Fragment() {
     }
 
     private fun getData() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            val jsonResponse: JsonResponse? = withContext(Dispatchers.IO) {
-                repository.getRestaurantes()
-            }
-
-            jsonResponse?.let { res ->
-                if (res.payload.locais.isEmpty()) {
-                    recyclerView?.visibility = View.GONE
-                    emptyView?.visibility = View.VISIBLE
-                } else {
-                    itensAdapter.update(res.payload.locais)
-                    emptyView?.visibility = View.GONE
-                    recyclerView?.visibility = View.VISIBLE
+        swipe?.isRefreshing = true
+        viewModel
+            .getRestaurantes()
+            .observe(viewLifecycleOwner)
+            { response ->
+                response?.let { res ->
+                    if (res.payload.locais.isEmpty()) {
+                        recyclerView?.visibility = View.GONE
+                        emptyView?.visibility = View.VISIBLE
+                    } else {
+                        itensAdapter.update(res.payload.locais)
+                        emptyView?.visibility = View.GONE
+                        recyclerView?.visibility = View.VISIBLE
+                    }
                 }
+
+                swipe?.isRefreshing = false
             }
-            swipe?.isRefreshing = false
-        }
     }
 }
