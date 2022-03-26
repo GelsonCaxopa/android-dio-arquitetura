@@ -13,7 +13,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import br.com.luizgadao.tqi_sample.R
 import br.com.luizgadao.tqi_sample.stores.ListContract
 import br.com.luizgadao.tqi_sample.stores.model.repository.RepositoryImpl
-import br.com.luizgadao.tqi_sample.ui.data.JsonResponse
+import br.com.luizgadao.tqi_sample.stores.model.JsonResponse
 import br.com.luizgadao.tqi_sample.stores.presenter.Presenter
 
 

@@ -9,7 +9,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import br.com.luizgadao.tqi_sample.R
-import br.com.luizgadao.tqi_sample.ui.data.Local
+import br.com.luizgadao.tqi_sample.stores.model.Local
 import coil.load
 import coil.transform.CircleCropTransformation
 

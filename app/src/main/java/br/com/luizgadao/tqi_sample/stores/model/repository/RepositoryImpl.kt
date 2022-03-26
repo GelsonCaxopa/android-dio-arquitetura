@@ -1,7 +1,7 @@
 package br.com.luizgadao.tqi_sample.stores.model.repository
 
 import android.util.Log
-import br.com.luizgadao.tqi_sample.ui.data.JsonResponse
+import br.com.luizgadao.tqi_sample.stores.model.JsonResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

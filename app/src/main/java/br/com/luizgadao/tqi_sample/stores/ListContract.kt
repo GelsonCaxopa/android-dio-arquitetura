@@ -1,6 +1,6 @@
 package br.com.luizgadao.tqi_sample.stores
 
-import br.com.luizgadao.tqi_sample.ui.data.JsonResponse
+import br.com.luizgadao.tqi_sample.stores.model.JsonResponse
 
 interface ListContract {
     interface View {
