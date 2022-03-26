@@ -1,4 +1,4 @@
-package br.com.luizgadao.tqi_sample.ui
+package br.com.luizgadao.tqi_sample.stores.view
 
 import android.graphics.Color
 import android.view.LayoutInflater
