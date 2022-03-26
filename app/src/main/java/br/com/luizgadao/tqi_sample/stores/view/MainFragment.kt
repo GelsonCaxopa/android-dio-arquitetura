@@ -11,20 +11,20 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import br.com.luizgadao.tqi_sample.R
-import br.com.luizgadao.tqi_sample.stores.ListContract
+import br.com.luizgadao.tqi_sample.stores.StoresContract
 import br.com.luizgadao.tqi_sample.stores.model.repository.RepositoryImpl
 import br.com.luizgadao.tqi_sample.stores.model.JsonResponse
 import br.com.luizgadao.tqi_sample.stores.presenter.Presenter
 
 
-class MainFragment : Fragment(), ListContract.View {
+class MainFragment : Fragment(), StoresContract.View {
 
     private lateinit var itensAdapter: ItensAdapter
     private var recyclerView: RecyclerView? = null
     private var swipe: SwipeRefreshLayout? = null
     private var emptyView: View? = null
 
-    private val presenter: ListContract.Presenter by lazy {
+    private val presenter: StoresContract.Presenter by lazy {
         val scope = viewLifecycleOwner.lifecycleScope
         return@lazy Presenter(
             view = this@MainFragment,
