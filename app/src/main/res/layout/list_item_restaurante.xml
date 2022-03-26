@@ -6,6 +6,7 @@
     android:paddingTop="16dp"
     android:paddingRight="16dp"
     android:paddingLeft="16dp"
+    android:background="?attr/selectableItemBackground"
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -39,7 +40,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/ic_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_heart" />
+        app:srcCompat="@drawable/ic_heart"
+        android:background="?attr/selectableItemBackgroundBorderless"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_titulo"
