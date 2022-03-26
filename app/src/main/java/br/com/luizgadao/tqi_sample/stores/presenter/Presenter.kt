@@ -1,5 +1,7 @@
-package br.com.luizgadao.tqi_sample.ui
+package br.com.luizgadao.tqi_sample.stores.presenter
 
+import br.com.luizgadao.tqi_sample.stores.ListContract
+import br.com.luizgadao.tqi_sample.stores.model.repository.Repository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

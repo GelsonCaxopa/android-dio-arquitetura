@@ -1,4 +1,4 @@
-package br.com.luizgadao.tqi_sample.ui
+package br.com.luizgadao.tqi_sample.stores.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +11,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import br.com.luizgadao.tqi_sample.R
+import br.com.luizgadao.tqi_sample.stores.ListContract
+import br.com.luizgadao.tqi_sample.stores.model.repository.RepositoryImpl
 import br.com.luizgadao.tqi_sample.ui.data.JsonResponse
+import br.com.luizgadao.tqi_sample.stores.presenter.Presenter
 
 
 class MainFragment : Fragment(), ListContract.View {

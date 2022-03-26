@@ -1,4 +1,4 @@
-package br.com.luizgadao.tqi_sample.ui
+package br.com.luizgadao.tqi_sample.stores.model.repository
 
 import android.util.Log
 import br.com.luizgadao.tqi_sample.ui.data.JsonResponse

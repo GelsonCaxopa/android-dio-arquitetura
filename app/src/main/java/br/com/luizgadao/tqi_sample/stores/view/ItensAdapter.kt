@@ -1,5 +1,6 @@
-package br.com.luizgadao.tqi_sample.ui
+package br.com.luizgadao.tqi_sample.stores.view
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -55,6 +56,7 @@ class ItensAdapter(
             icLike = itemView.findViewById(R.id.ic_like)
         }
 
+        @SuppressLint("SetTextI18n")
         fun onBind(local: Local) {
 
             tvTitle?.text = local.titulo
@@ -63,7 +65,7 @@ class ItensAdapter(
             val distancia = (String.format("%.1f", local.distancia.div(1000.0)) + " Km")
                 .replace(".", ",")
 
-            var frete = if (local.frete <= 0.0)
+            val frete = if (local.frete <= 0.0)
                 "Grátis"
             else
                 "R$ " + String.format("%.2f", local.frete).replace(".", ",")
@@ -92,6 +94,7 @@ class ItensAdapter(
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun update(itens: List<Local>) {
         this.itens = itens
         notifyDataSetChanged()
