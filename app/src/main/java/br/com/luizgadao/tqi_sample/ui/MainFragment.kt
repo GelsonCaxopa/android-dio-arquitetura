@@ -1,6 +1,7 @@
 package br.com.luizgadao.tqi_sample.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,7 @@ class MainFragment : Fragment(), ListContract.View {
     private lateinit var itensAdapter: ItensAdapter
     private var recyclerView: RecyclerView? = null
     private var swipe: SwipeRefreshLayout? = null
+    private var emptyView: View? = null
 
     private val presenter: ListContract.Presenter by lazy {
         Presenter(
@@ -42,6 +44,7 @@ class MainFragment : Fragment(), ListContract.View {
     private fun settingView(view: View) {
         recyclerView = view.findViewById(R.id.rv)
         swipe = view.findViewById(R.id.swipe)
+        emptyView = view.findViewById(R.id.emptyView)
     }
 
     override fun setupUI() {
@@ -71,7 +74,16 @@ class MainFragment : Fragment(), ListContract.View {
     }
 
     override fun updateUI(jsonResponse: JsonResponse?) {
-        jsonResponse?.let { res -> itensAdapter.update(res.payload.locais) }
+        jsonResponse?.let { res ->
+            if (res.payload.locais.isEmpty()) {
+                recyclerView?.visibility = View.GONE
+                emptyView?.visibility = View.VISIBLE
+            } else {
+                itensAdapter.update(res.payload.locais)
+                emptyView?.visibility = View.GONE
+                recyclerView?.visibility = View.VISIBLE
+            }
+        }
     }
 
     override fun showLoading() {
