@@ -1,7 +1,6 @@
 package br.com.luizgadao.tqi_sample.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,9 +22,11 @@ class MainFragment : Fragment(), ListContract.View {
     private var emptyView: View? = null
 
     private val presenter: ListContract.Presenter by lazy {
-        Presenter(
+        val scope = viewLifecycleOwner.lifecycleScope
+        return@lazy Presenter(
             view = this@MainFragment,
-            scope = viewLifecycleOwner.lifecycleScope
+            repository = RepositoryImpl(scope),
+            scope = scope
         )
     }
 
